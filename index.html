@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}動競 Taiwan Sports Hub｜台灣運動迷的賽事與活動看板{% endblock %}
+{% block content %}
+<section class="bg-[#0b1220] text-white relative overflow-hidden">
+  <div class="absolute inset-0 grid-bg opacity-70"></div><div class="absolute -right-24 -top-32 w-[34rem] h-[34rem] rounded-full bg-lime-300/10 blur-3xl"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-[1.15fr_.85fr] gap-12 items-center">
+    <div><div class="inline-flex items-center gap-2 rounded-full border border-lime-300/30 bg-lime-300/10 px-3 py-1 text-xs text-lime-200"><span class="w-2 h-2 rounded-full bg-lime-300 animate-pulse"></span>台灣運動迷的每日情報站</div>
+      <h1 class="mt-6 text-4xl sm:text-6xl font-black leading-tight">每一場熱愛，<br><span class="accent">都值得準時到場。</span></h1>
+      <p class="mt-5 max-w-xl text-slate-300 leading-7">從一級方程式賽車到 NBA 球星，從國際賽事到苗栗週末球聚，把你關心的運動一次收進看板。</p>
+      <div class="mt-8 flex flex-wrap gap-3"><a href="/schedule" class="focus-ring bg-lime-300 text-slate-950 font-bold px-5 py-3 rounded-xl hover:bg-lime-200">查看賽事賽程　↗</a><a href="/players" class="focus-ring border border-white/20 px-5 py-3 rounded-xl hover:bg-white/10">探索球星車手</a><a href="/activities" class="focus-ring border border-white/20 px-5 py-3 rounded-xl hover:bg-white/10">找台灣活動</a></div>
+    </div>
+    <div class="relative"><div class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-lime-300/20 to-cyan-400/10 blur-xl"></div><div class="relative rounded-3xl border border-white/10 bg-slate-900/80 p-6 sm:p-8 shadow-2xl">
+      <div class="flex justify-between items-start"><div><p class="text-xs tracking-[.2em] text-slate-400">NEXT UP · 下一站焦點</p><h2 class="mt-3 text-2xl font-bold">{{ next_race.name if next_race else '賽事焦點' }}</h2></div><span class="text-4xl">🏁</span></div>
+      {% if next_race %}<p class="mt-2 text-slate-300">{{ next_race.circuit }}{% if next_race.location %} · {{ next_race.location }}{% endif %}</p><div class="mt-6 rounded-2xl bg-white/5 p-4"><div class="text-xs text-slate-400">台灣開賽時間</div><div class="mt-1 text-lg font-bold accent">{{ next_race.time_tw }}</div></div>{% else %}<p class="mt-2 text-slate-300">目前無法取得最新賽程，請稍後再查看。</p>{% endif %}
+      <div class="mt-6 flex gap-2 text-xs"><span class="rounded-full bg-white/10 px-3 py-1.5">F1 賽季</span><span class="rounded-full bg-white/10 px-3 py-1.5">即時賽程</span><span class="rounded-full bg-white/10 px-3 py-1.5">UTC+8</span></div>
+    </div></div>
+  </div>
+</section>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+  <div class="flex items-end justify-between mb-6"><div><p class="text-xs font-bold tracking-widest text-lime-700">LOCAL PLAY · 在地運動</p><h2 class="mt-2 text-2xl sm:text-3xl font-black">週末，出門一起動</h2></div><a href="/activities" class="text-sm font-bold hover:text-lime-700">全部活動　→</a></div>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">{% for activity in activities %}<article class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-lg transition"><div class="flex justify-between"><span class="text-xs font-bold text-slate-500">{{ activity.sport_type }} · {{ activity.city }}</span><span class="text-xs rounded-full px-2.5 py-1 {{ 'bg-orange-100 text-orange-700' if activity.status == '即將額滿' else 'bg-lime-100 text-lime-800' }}">{{ activity.status }}</span></div><h3 class="mt-4 text-lg font-bold">{{ activity.title }}</h3><p class="mt-2 text-sm text-slate-500">{{ activity.date_time }} · {{ activity.venue }}</p><p class="mt-3 text-sm leading-6 text-slate-600">{{ activity.description }}</p><div class="mt-4 pt-4 border-t border-slate-100 text-sm font-bold">{{ activity.fee }}</div></article>{% endfor %}</div>
+</section>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 pb-4"><div class="flex items-end justify-between mb-6"><div><p class="text-xs font-bold tracking-widest text-lime-700">PICK YOUR SPORT</p><h2 class="mt-2 text-2xl font-black">運動世界，任你探索</h2></div><a href="/sports" class="text-sm font-bold">逛運動百科　→</a></div><div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">{% for sport in sports %}<a href="/sports" class="rounded-2xl bg-white border border-slate-200 p-4 hover:border-lime-400 hover:-translate-y-0.5 transition"><span class="text-2xl">{{ sport.icon }}</span><div class="mt-3 text-sm font-bold">{{ sport.name_zh }}</div><div class="text-xs text-slate-400">{{ sport.strSport }}</div></a>{% endfor %}</div></section>
+{% endblock %}
